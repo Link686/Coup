@@ -1,0 +1,8 @@
+{
+  "name": "coup-web",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/engine.test.mjs",
+    "start": "npx --yes serve ."
+  }
+}
