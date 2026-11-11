@@ -4,10 +4,10 @@
 // os convidados só enviam jogadas e recebem a visão filtrada deles.
 // O servidor público do PeerJS é usado apenas para "apresentar" os navegadores.
 
-const { createGame, applyIntent, getView, RESPONSE_PHASES, MODES, MIN_PLAYERS } = window.CoupEngine;
+const { createGame, applyIntent, getView, RESPONSE_PHASES, MODES, MIN_PLAYERS } = window.JogoEngine;
 
-const PREFIX = 'coup-ptbr-v1-';
-const HOST_SAVE_KEY = 'coup.host';
+const PREFIX = 'eusouduquepego3-v1-';
+const HOST_SAVE_KEY = 'esdp3.host';
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const HOST_ID = 'p0';
 
@@ -297,7 +297,7 @@ class ClientSession {
     this.playerId = null;
     this.everConnected = false;
     this.closed = false;
-    const key = 'coup.token.' + this.code;
+    const key = 'esdp3.token.' + this.code;
     const ss = safeStorage('sessionStorage');
     this.token = ss?.getItem(key) || randomToken();
     try { ss?.setItem(key, this.token); } catch { /* ignora */ }
@@ -372,7 +372,7 @@ class ClientSession {
   leave() {
     this.closed = true;
     try { this.conn?.send({ t: 'leave' }); } catch { /* ignora */ }
-    try { safeStorage('sessionStorage')?.removeItem('coup.token.' + this.code); } catch { /* ignora */ }
+    try { safeStorage('sessionStorage')?.removeItem('esdp3.token.' + this.code); } catch { /* ignora */ }
     setTimeout(() => this.peer?.destroy(), 300);
   }
 
@@ -381,5 +381,5 @@ class ClientSession {
   }
 }
 
-window.CoupNet = { HOST_ID, randomCode, loadSavedHost, clearSavedHost, HostSession, ClientSession };
+window.JogoNet = { HOST_ID, randomCode, loadSavedHost, clearSavedHost, HostSession, ClientSession };
 })();

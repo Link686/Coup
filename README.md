@@ -1,6 +1,8 @@
-# Coup Online
+# EuSouDuquePego3
 
-Versão web do jogo de cartas **Coup** (2 a 15 jogadores), feita em JavaScript puro para rodar no **GitHub Pages**, sem servidor próprio.
+Jogo de blefe para jogar com os amigos, cada um no seu celular (2 a 15 jogadores). Feito em JavaScript puro para rodar no **GitHub Pages**, sem servidor próprio.
+
+> **Aviso:** Projeto de fã, gratuito e não oficial, inspirado em um jogo de cartas de blefe. Não tem afiliação com os detentores da marca Coup nem com suas editoras. Se você gosta, compre o jogo original! As regras de jogos não são protegidas por direito autoral; toda a arte e os textos deste projeto são próprios.
 
 ## Como funciona
 
@@ -15,7 +17,7 @@ Versão web do jogo de cartas **Coup** (2 a 15 jogadores), feita em JavaScript p
 
 | Arquivo | O que faz |
 |---|---|
-| `js/engine.js` | Motor de regras puro (sem DOM, sem rede). Exposto como `window.CoupEngine`. |
+| `js/engine.js` | Motor de regras puro (sem DOM, sem rede). Exposto como `window.JogoEngine`. |
 | `js/net.js` | Sessões de anfitrião e convidado com PeerJS. |
 | `js/cards.js` | Visual das cartas (arte própria em SVG) e textos de referência. |
 | `js/app.js` | Interface. |

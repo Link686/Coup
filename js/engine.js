@@ -1,6 +1,6 @@
 (function (root) {
 'use strict';
-// Motor de regras do Coup (jogo base, 2 a 6 jogadores).
+// Motor de regras do jogo (2 a 15 jogadores).
 // Não depende de DOM nem de rede: recebe intenções e altera o estado.
 // O estado é JSON puro, para poder ser salvo e enviado pela rede.
 
@@ -516,5 +516,5 @@ const api = {
   createGame, applyIntent, getOptions, getView,
 };
 if (typeof module === 'object' && module.exports) module.exports = api;
-else root.CoupEngine = api;
+else root.JogoEngine = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

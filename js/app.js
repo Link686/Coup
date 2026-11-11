@@ -1,9 +1,9 @@
 (function () {
 'use strict';
 // Interface. Re-renderiza a tela a cada mudança de estado.
-const { ACTIONS, CARD_TYPES, MIN_PLAYERS, MODES, MUST_COUP_AT } = window.CoupEngine;
-const { HostSession, ClientSession, HOST_ID, loadSavedHost, clearSavedHost } = window.CoupNet;
-const { CHARS, face, back } = window.CoupCards;
+const { ACTIONS, CARD_TYPES, MIN_PLAYERS, MODES, MUST_COUP_AT } = window.JogoEngine;
+const { HostSession, ClientSession, HOST_ID, loadSavedHost, clearSavedHost } = window.JogoNet;
+const { CHARS, face, back } = window.JogoCards;
 
 const $app = document.getElementById('app');
 const $toast = document.getElementById('toast');
@@ -94,7 +94,7 @@ function callbacks() {
     },
     onRejected(msg) {
       toast(msg);
-      sstore.del('coup.client');
+      sstore.del('esdp3.client');
       resetToHome();
     },
   };
@@ -114,7 +114,7 @@ function joinGame(code, name) {
   if (code.length < 4) return toast('Digite o código da sala.');
   if (!name) return;
   ui.session = new ClientSession({ code, name, ...callbacks() });
-  sstore.set('coup.client', { code, name });
+  sstore.set('esdp3.client', { code, name });
   ui.session.start();
   setUrlCode(code);
   render();
@@ -137,7 +137,7 @@ function leave() {
   } else {
     if (ui.view && ui.view.phase !== 'gameOver' && !confirm('Sair da partida?')) return;
     ui.session.leave();
-    sstore.del('coup.client');
+    sstore.del('esdp3.client');
   }
   resetToHome();
 }
@@ -152,7 +152,7 @@ function readName() {
   const el = document.getElementById('name');
   const name = (el?.value || '').trim().slice(0, 20);
   if (!name) { toast('Digite seu nome.'); el?.focus(); return null; }
-  store.set('coup.name', name);
+  store.set('esdp3.name', name);
   return name;
 }
 
@@ -210,7 +210,7 @@ function rulesButton(label = 'Cartas e regras') {
 function renderConnecting() {
   const st = ui.status;
   $app.innerHTML = `
-    <h1 class="logo">Coup</h1>
+    <h1 class="logo" aria-label="EuSouDuquePego3"><span>EuSou</span><span class="logo-duque">Duque</span><span>Pego<b>3</b></span></h1>
     <div class="panel stack">
       <p>${st.state === 'erro' ? esc(st.message) : 'Conectando à sala…'}</p>
       <button class="block" data-do="leave">Voltar</button>
@@ -221,11 +221,11 @@ function renderHome() {
   const params = new URLSearchParams(location.search);
   const code = params.get('sala') || '';
   const saved = loadSavedHost();
-  const name = store.get('coup.name') || '';
+  const name = store.get('esdp3.name') || '';
   $app.innerHTML = `
     <div class="hero">
       <div class="hero-cards">${['assassino', 'duque', 'condessa'].map((t) => face(t, { size: 'sm', detail: false })).join('')}</div>
-      <h1 class="logo">Coup</h1>
+      <h1 class="logo" aria-label="EuSouDuquePego3"><span>EuSou</span><span class="logo-duque">Duque</span><span>Pego<b>3</b></span></h1>
       <p class="muted">Blefe, intriga e influência. De 2 a 15 jogadores, cada um no seu celular.</p>
       ${rulesButton()}
     </div>
@@ -247,7 +247,8 @@ function renderHome() {
       ${saved ? `
         <button class="block" data-do="resume">Retomar sala ${esc(saved.code)}${saved.game ? ' (partida em andamento)' : ''}</button>
         <button class="ghost block small" data-do="forget">Descartar sala salva</button>` : ''}
-    </div>`;
+    </div>
+    <p class="disclaimer">Projeto de fã, gratuito e não oficial, inspirado em um jogo de cartas de blefe. Não tem afiliação com os detentores da marca Coup nem com suas editoras. Se você gosta, compre o jogo original!</p>`;
   if (code) document.getElementById(name ? 'code' : 'name').focus();
 }
 
@@ -461,7 +462,7 @@ function renderGame() {
   const showTimer = ui.deadline && v.pending?.waitingFor?.length;
   const nextId = nextPlayerId(v);
   const crowd = v.players.length > 6 ? 'crowd' : '';
-  document.title = task ? '⚡ Sua vez · Coup' : 'Coup Online';
+  document.title = task ? '⚡ Sua vez · EuSouDuquePego3' : 'EuSouDuquePego3';
 
   $app.innerHTML = `
     ${topbar()}
@@ -1038,6 +1039,7 @@ function openRules() {
         </ul>
       </section>
       <button class="primary block" data-do="closeRules">Entendi</button>
+      <p class="disclaimer">Projeto de fã, gratuito e não oficial, inspirado em um jogo de cartas de blefe. Não tem afiliação com os detentores da marca Coup nem com suas editoras. Se você gosta, compre o jogo original!</p>
     </div>`;
   $sheet.hidden = false;
   document.body.classList.add('noscroll');
@@ -1146,14 +1148,14 @@ document.addEventListener('click', async (e) => {
       return;
     }
     case 'whatsapp': {
-      const text = `Bora jogar Coup! 🃏 Entra na minha sala (código ${ui.lobby.code}): ${shareLink()}`;
+      const text = `Bora jogar EuSouDuquePego3! 🃏 Entra na minha sala (código ${ui.lobby.code}): ${shareLink()}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
       return;
     }
     case 'share': {
       const url = shareLink();
       if (navigator.share) {
-        try { await navigator.share({ title: 'Coup', text: `Entre na minha sala de Coup: ${ui.lobby.code}`, url }); } catch { /* cancelado */ }
+        try { await navigator.share({ title: 'EuSouDuquePego3', text: `Bora jogar EuSouDuquePego3! Entra na minha sala: ${ui.lobby.code}`, url }); } catch { /* cancelado */ }
       } else {
         try { await navigator.clipboard.writeText(url); toast('Link copiado!', true); } catch { window.prompt('Copie o link:', url); }
       }
@@ -1203,7 +1205,7 @@ if (!window.Peer) {
   $app.innerHTML = '<div class="panel"><p>Não foi possível carregar a biblioteca de conexão (PeerJS). Verifique a internet e recarregue.</p></div>';
 } else {
   // Convidado que recarregou a aba volta automaticamente para a sala.
-  const again = sstore.get('coup.client');
+  const again = sstore.get('esdp3.client');
   const urlCode = new URLSearchParams(location.search).get('sala');
   if (again && (!urlCode || urlCode.toUpperCase() === again.code)) joinGame(again.code, again.name);
   else render();

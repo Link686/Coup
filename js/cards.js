@@ -61,5 +61,5 @@ function back(size = 'md') {
   </div></div>`;
 }
 
-window.CoupCards = { CHARS, face, back, emblem };
+window.JogoCards = { CHARS, face, back, emblem };
 })();

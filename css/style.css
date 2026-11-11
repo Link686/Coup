@@ -82,7 +82,12 @@ button.block { width: 100%; }
 .hero-cards .pc { width: 90px; margin: 0 -14px; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
 .hero-cards .pc:nth-child(1) { transform: rotate(-12deg) translateY(10px); }
 .hero-cards .pc:nth-child(3) { transform: rotate(12deg) translateY(10px); }
-.logo { font-family: var(--serif); font-size: 2.6rem; margin: 6px 0 2px; color: var(--gold); letter-spacing: .12em; }
+.logo {
+  font-family: var(--serif); font-size: clamp(1.7rem, 9vw, 2.6rem); line-height: 1; margin: 10px 0 6px;
+  color: var(--gold); letter-spacing: .01em; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 .08em;
+}
+.logo .logo-duque { color: #c69cf0; text-shadow: 0 2px 12px rgba(122, 55, 166, .6); }
+.logo b { color: #8ef0aa; font-size: 1.15em; }
 .rules-btn { min-height: 36px; padding: 6px 12px; font-size: .9rem; }
 
 /* ---------- Topo ---------- */
@@ -636,3 +641,5 @@ body.in-game #app { padding-bottom: calc(var(--hand-visible) + 56px + env(safe-a
 .whatsapp { background: #1f8f4e; border-color: #1f8f4e; font-weight: 700; }
 
 #toast.ok { background: #1f8f4e; }
+
+.disclaimer { margin: 18px 4px 8px; font-size: .75rem; line-height: 1.4; color: var(--muted); text-align: center; opacity: .8; }
